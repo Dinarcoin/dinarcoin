@@ -1,7 +1,7 @@
 src/*.exe
-src/bitcoin
-src/bitcoind
-src/test_bitcoin
+src/dinarcoin
+src/dinarcoind
+src/test_dinarcoin
 .*.swp
 *.*~*
 *.bak
@@ -9,17 +9,17 @@ src/test_bitcoin
 *.orig
 *.o
 *.patch
-.bitcoin
+.dinarcoin
 
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-bitcoin-qt
-Bitcoin-Qt.app
+dinarcoin-qt
+Dinarcoin-Qt.app
 
 # Unit-tests
 Makefile.test
-bitcoin-qt_test
+dinarcoin-qt_test
 
 # Resources cpp
 qrc_*.cpp
