@@ -1073,17 +1073,26 @@ uint256 static GetOrphanRoot(const CBlockHeader* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 50 * COIN;
+    int64 nSubsidy = 1000000 * COIN;
 
-    // Subsidy is cut in half every 210000 blocks, which will occur approximately every 4 years
-    nSubsidy >>= (nHeight / 210000);
+    // Subsidy is cut in half every 10 blocks.
+    nSubsidy >>= (nHeight / 10);
+
+//axe subsidy alltogether after block 639 to fix bug
+if(nHeight >= 639)
+            nSubsidy = 0 * COIN;
+//end fix
+
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 14 * 24 * 60 * 60; // two weeks
-static const int64 nTargetSpacing = 10 * 60;
+static const int64 nTargetTimespan = 1 * 24 * 60 * 60; // one day retarget
+static const int64 nTargetSpacing = 10 * 60; // block target time
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+
+static const int nDifficultyFork = 639;
+
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1150,10 +1159,10 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if (nActualTimespan < nTargetTimespan/4)
-        nActualTimespan = nTargetTimespan/4;
-    if (nActualTimespan > nTargetTimespan*4)
-        nActualTimespan = nTargetTimespan*4;
+    if (nActualTimespan < nTargetTimespan/1.5)
+        nActualTimespan = nTargetTimespan/1.5;
+    if (nActualTimespan > nTargetTimespan*1.5)
+        nActualTimespan = nTargetTimespan*1.5;
 
     // Retarget
     CBigNum bnNew;
